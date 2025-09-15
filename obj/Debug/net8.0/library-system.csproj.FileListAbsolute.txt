@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\bhanna\Source\Repos\library-system\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\bhanna\Source\Repos\library-system\bin\Debug\net8.0\appsettings.json
 C:\Users\bhanna\Source\Repos\library-system\bin\Debug\net8.0\library-system.staticwebassets.runtime.json
@@ -170,3 +171,39 @@ C:\Users\bhanna\Source\Repos\library-system\obj\Debug\net8.0\refint\library-syst
 C:\Users\bhanna\Source\Repos\library-system\obj\Debug\net8.0\library-system.pdb
 C:\Users\bhanna\Source\Repos\library-system\obj\Debug\net8.0\library-system.genruntimeconfig.cache
 C:\Users\bhanna\Source\Repos\library-system\obj\Debug\net8.0\ref\library-system.dll
+=======
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\appsettings.json
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\library-system.staticwebassets.runtime.json
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\library-system.staticwebassets.endpoints.json
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\library-system.exe
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\library-system.deps.json
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\library-system.runtimeconfig.json
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\library-system.dll
+C:\Users\rrobert\Source\Repos\library-system\bin\Debug\net8.0\library-system.pdb
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\rpswa.dswa.cache.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.AssemblyInfoInputs.cache
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.AssemblyInfo.cs
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.csproj.CoreCompileInputs.cache
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.RazorAssemblyInfo.cache
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.RazorAssemblyInfo.cs
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.sourcelink.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\rjimswa.dswa.cache.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\scopedcss\bundle\library-system.styles.css
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\scopedcss\projectbundle\library-system.bundle.scp.css
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\staticwebassets.build.json.cache
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.dll
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\refint\library-system.dll
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.pdb
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\library-system.genruntimeconfig.cache
+C:\Users\rrobert\Source\Repos\library-system\obj\Debug\net8.0\ref\library-system.dll
+>>>>>>> 699a5451c70129bdd6768e161a1a4a21abb7199c

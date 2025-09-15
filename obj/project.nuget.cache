@@ -1,5 +1,6 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "ZZKhzl2P3Zw=",
   "success": true,
   "projectFilePath": "C:\\Users\\bhanna\\Source\\Repos\\library-system\\library-system.csproj",
@@ -84,5 +85,11 @@
     "C:\\Users\\bhanna\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\bhanna\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
+=======
+  "dgSpecHash": "l8oALUJ+/78=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\rrobert\\Source\\Repos\\library-system\\library-system.csproj",
+  "expectedPackageFiles": [],
+>>>>>>> 699a5451c70129bdd6768e161a1a4a21abb7199c
   "logs": []
 }

@@ -4722,23 +4722,39 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\bhanna\\.nuget\\packages\\": {},
+=======
+    "C:\\Users\\rrobert\\.nuget\\packages\\": {},
+>>>>>>> 699a5451c70129bdd6768e161a1a4a21abb7199c
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\bhanna\\Source\\Repos\\library-system\\library-system.csproj",
       "projectName": "library-system",
       "projectPath": "C:\\Users\\bhanna\\Source\\Repos\\library-system\\library-system.csproj",
       "packagesPath": "C:\\Users\\bhanna\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\bhanna\\Source\\Repos\\library-system\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\rrobert\\Source\\Repos\\library-system\\library-system.csproj",
+      "projectName": "library-system",
+      "projectPath": "C:\\Users\\rrobert\\Source\\Repos\\library-system\\library-system.csproj",
+      "packagesPath": "C:\\Users\\rrobert\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\rrobert\\Source\\Repos\\library-system\\obj\\",
+>>>>>>> 699a5451c70129bdd6768e161a1a4a21abb7199c
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\bhanna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\rrobert\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 699a5451c70129bdd6768e161a1a4a21abb7199c
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
