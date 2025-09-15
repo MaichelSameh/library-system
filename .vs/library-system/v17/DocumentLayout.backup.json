@@ -72,7 +72,7 @@
               "RelativeDocumentMoniker": "Views\\Home\\Test.cshtml",
               "ToolTip": "C:\\Users\\rrobert\\source\\repos\\library-system\\Views\\Home\\Test.cshtml",
               "RelativeToolTip": "Views\\Home\\Test.cshtml",
-              "ViewState": "AgIAADMAAAAAAAAAAAAqwEEAAABrAAAAAAAAAA==",
+              "ViewState": "AgIAADMAAAAAAAAAAAAqwDsAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-09-15T12:52:56.237Z",
               "EditorCaption": ""
@@ -171,8 +171,7 @@
               "RelativeToolTip": "Views\\_ViewImports.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-15T07:47:15.517Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-15T07:47:15.517Z"
             }
           ]
         }
