@@ -1,0 +1,56 @@
+﻿using Microsoft.EntityFrameworkCore;
+
+using library_system.Models;
+
+namespace library_system.Models
+{
+    public class AppDbContext : DbContext
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+        : base(options)
+        {
+        }
+
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Pubblisher> Pubblishers { get; set; }
+        public DbSet<Tipology> Tipologys { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Borrow> Borrows { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Tipology)
+                .WithMany(t => t.Books)
+                .HasForeignKey(b => b.TipologyId)
+                 ; // Optional    // FK in Employee table
+
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Authors)
+                .WithMany(t => t.Books)
+                .HasForeignKey(e => e.AuthorId)
+                ;
+
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Pubblisher)
+                .WithMany(t => t.Books)
+                .HasForeignKey(e => e.PubblisherId)
+                ;
+
+            modelBuilder.Entity<Borrow>()
+                .HasOne(b => b.Client)
+                .WithMany(t => t.borrows)
+                .HasForeignKey(e => e.ClientId)
+                ;
+
+            modelBuilder.Entity<Borrow>()
+                .HasOne(b => b.book)
+                .WithMany(t => t.borrows)
+                .HasForeignKey(e => e.BookId)
+               ;
+
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}
