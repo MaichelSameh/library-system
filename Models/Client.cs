@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace library_system.Models
 {
@@ -15,6 +16,10 @@ namespace library_system.Models
         [Required] // NOT NULL
         [MaxLength(100)] // nvarchar(100)
         public string SecondName { get; set; }
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Password { get; set; }
         public string Address { get; set; }
         public string FiscalCode { get; set; }
 
