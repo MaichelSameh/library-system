@@ -17,7 +17,7 @@ namespace library_system.Models
         public string SecondName { get; set; }
 
         public DateTime BirthDate { get; set; }
-        public DateTime DeadDate { get; set; }
+        public DateTime? DeadDate { get; set; }
 
         public ICollection<Book> Books { get; set; }
     }
