@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using library_system.Business;
+using library_system.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using library_system.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace library_system.Controllers
 {
@@ -53,9 +54,9 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,Username,Password,Address,FiscalCode,BadgeCode")] Client client)
         {
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+            var clientsBO = new ClientBO(_context);
+            clientsBO.CreateClient(client);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Clients/Edit/5
@@ -65,7 +66,7 @@ namespace library_system.Controllers
             {
                 return NotFound();
             }
-
+            
             var client = await _context.Clients.FindAsync(id);
             if (client == null)
             {
@@ -81,29 +82,19 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SecondName,Username,Password,Address,FiscalCode,BadgeCode")] Client client)
         {
-            if (id != client.Id)
+            bool check = false;
+            var clientsBO = new ClientBO(_context);
+            check = clientsBO.updateClient(client);
+
+            if (check)
+            {
+                return View(client);
+            }
+            else
             {
                 return NotFound();
             }
 
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            
         }
 
         // GET: Clients/Delete/5
@@ -129,14 +120,31 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-            if (client != null)
+            bool check = false;
+            var clientsBO = new ClientBO(_context);
+            check = clientsBO.DeleteClient(id);
+
+            if (check)
             {
-                _context.Clients.Remove(client);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> Login(Client client)
+        {
+            var AuthBO = new AuthenticationBO(_context);
+            bool check  = AuthBO.CheckCredentials(client);
+
+            if (check)
+                return RedirectToAction("Index", "Books");
+
+            else
+                return NotFound();
+
         }
 
         private bool ClientExists(int id)
