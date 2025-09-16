@@ -57,14 +57,9 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,BirthDate,DeadDate")] Author author)
         {
-<<<<<<< HEAD
             await _authorBO.AddAuthor(author);
             return RedirectToAction(nameof(Index));
-=======
-                _context.Add(author);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
->>>>>>> e64fd15b3d86ba5763869c43aa84577514db512a
+
         }
 
         // GET: Authors/Edit/5
@@ -93,7 +88,7 @@ namespace library_system.Controllers
             {
                 return NotFound();
             }
-<<<<<<< HEAD
+
             try
             {
                 _authorBO?.UpdateAuthor(author);
@@ -111,27 +106,7 @@ namespace library_system.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-=======
 
-                try
-                {
-                    _context.Update(author);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AuthorExists(author.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
->>>>>>> e64fd15b3d86ba5763869c43aa84577514db512a
 
 
         // GET: Authors/Delete/5

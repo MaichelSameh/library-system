@@ -53,15 +53,10 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,Username,Password,Address,FiscalCode,BadgeCode")] Client client)
         {
-<<<<<<< HEAD
             _context.Add(client);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-=======
-                _context.Add(client);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
->>>>>>> e64fd15b3d86ba5763869c43aa84577514db512a
+
         }
 
         // GET: Clients/Edit/5
@@ -92,7 +87,6 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-<<<<<<< HEAD
             try
             {
                 _context.Update(client);
@@ -111,26 +105,7 @@ namespace library_system.Controllers
             }
             return RedirectToAction(nameof(Index));
 
-=======
-                try
-                {
-                    _context.Update(client);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            
->>>>>>> e64fd15b3d86ba5763869c43aa84577514db512a
+
         }
 
         // GET: Clients/Delete/5

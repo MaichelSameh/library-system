@@ -62,16 +62,10 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,TipologyId,ISBN,AuthorId,PubblisherId,PubblicDate")] Book book)
         {
-<<<<<<< HEAD
             _context.Add(book);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-=======
 
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
->>>>>>> e64fd15b3d86ba5763869c43aa84577514db512a
 
             ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
             ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
@@ -109,7 +103,6 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-<<<<<<< HEAD
             try
             {
                 _context.Update(book);
@@ -131,25 +124,7 @@ namespace library_system.Controllers
             ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
             ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
             ViewData["TipologyId"] = new SelectList(_context.Tipologys, "Id", "Description", book.TipologyId);
-=======
-                try
-                {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExists(book.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
->>>>>>> e64fd15b3d86ba5763869c43aa84577514db512a
+
 
         }
 
