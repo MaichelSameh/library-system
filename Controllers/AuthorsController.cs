@@ -6,22 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using library_system.Models;
+using library_system.Business;
 
 namespace library_system.Controllers
 {
     public class AuthorsController : Controller
     {
-        private readonly AppDbContext _context;
+        public readonly AuthorBO _authorBO;
 
-        public AuthorsController(AppDbContext context)
+        public AuthorsController(AuthorBO authorBO)
         {
-            _context = context;
+            _authorBO = authorBO;
         }
 
         // GET: Authors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Authors.ToListAsync());
+            //return View(await _context.Authors.ToListAsync());
+            var authors = await _authorBO.GetAuthors().ToListAsync();
+            return View(authors);
         }
 
         // GET: Authors/Details/5
@@ -31,9 +34,7 @@ namespace library_system.Controllers
             {
                 return NotFound();
             }
-
-            var author = await _context.Authors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var author = await _authorBO.GetSingleAuthor((int)id).FirstOrDefaultAsync();
             if (author == null)
             {
                 return NotFound();
@@ -41,6 +42,7 @@ namespace library_system.Controllers
 
             return View(author);
         }
+
 
         // GET: Authors/Create
         public IActionResult Create()
@@ -55,13 +57,8 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,BirthDate,DeadDate")] Author author)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(author);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(author);
+            await _authorBO.AddAuthor(author);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Authors/Edit/5
@@ -71,8 +68,7 @@ namespace library_system.Controllers
             {
                 return NotFound();
             }
-
-            var author = await _context.Authors.FindAsync(id);
+            var author = await _authorBO.FindAuthor((int)id);
             if (author == null)
             {
                 return NotFound();
@@ -91,66 +87,54 @@ namespace library_system.Controllers
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(author);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AuthorExists(author.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _authorBO?.UpdateAuthor(author);
             }
-            return View(author);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AuthorExists(author.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: Authors/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var author = await _context.Authors
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (author == null)
-            {
-                return NotFound();
-            }
-
-            return View(author);
-        }
+        //----------------------
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var author = _authorBO.GetSingleAuthor((int) id).FirstOrDefault();
+        //    if (author == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(author);
+        //}
 
         // POST: Authors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var author = await _context.Authors.FindAsync(id);
-            if (author != null)
-            {
-                _context.Authors.Remove(author);
-            }
-
-            await _context.SaveChangesAsync();
+            await _authorBO.RemoveAuthor(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool AuthorExists(int id)
         {
-            return _context.Authors.Any(e => e.Id == id);
+            return _authorBO.ExistsAuthor(id);
         }
     }
 }

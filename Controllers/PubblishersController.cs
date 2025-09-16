@@ -55,13 +55,10 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Company")] Pubblisher pubblisher)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(pubblisher);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(pubblisher);
+            _context.Add(pubblisher);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            
         }
 
         // GET: Pubblishers/Edit/5

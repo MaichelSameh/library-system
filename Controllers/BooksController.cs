@@ -62,16 +62,13 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,TipologyId,ISBN,AuthorId,PubblisherId,PubblicDate")] Book book)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(book);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            _context.Add(book);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+
             ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
             ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
             ViewData["TipologyId"] = new SelectList(_context.Tipologys, "Id", "Description", book.TipologyId);
-            return View(book);
         }
 
         // GET: Books/Edit/5
@@ -105,30 +102,28 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(book);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookExists(book.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(book);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BookExists(book.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
             ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
             ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
             ViewData["TipologyId"] = new SelectList(_context.Tipologys, "Id", "Description", book.TipologyId);
-            return View(book);
+
         }
 
         // GET: Books/Delete/5
