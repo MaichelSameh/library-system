@@ -62,16 +62,14 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,TipologyId,ISBN,AuthorId,PubblisherId,PubblicDate")] Book book)
         {
-            if (ModelState.IsValid)
-            {
+
                 _context.Add(book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
+
             ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
             ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
             ViewData["TipologyId"] = new SelectList(_context.Tipologys, "Id", "Description", book.TipologyId);
-            return View(book);
         }
 
         // GET: Books/Edit/5
@@ -105,8 +103,6 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(book);
@@ -124,11 +120,7 @@ namespace library_system.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
-            ViewData["TipologyId"] = new SelectList(_context.Tipologys, "Id", "Description", book.TipologyId);
-            return View(book);
+
         }
 
         // GET: Books/Delete/5

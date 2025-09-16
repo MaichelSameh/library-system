@@ -55,13 +55,10 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description")] Tipology tipology)
         {
-            if (ModelState.IsValid)
-            {
+
                 _context.Add(tipology);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(tipology);
         }
 
         // GET: Tipologies/Edit/5
@@ -92,8 +89,6 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(tipology);
@@ -111,8 +106,6 @@ namespace library_system.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            return View(tipology);
         }
 
         // GET: Tipologies/Delete/5

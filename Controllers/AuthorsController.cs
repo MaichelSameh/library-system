@@ -55,13 +55,9 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,BirthDate,DeadDate")] Author author)
         {
-            if (ModelState.IsValid)
-            {
                 _context.Add(author);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(author);
         }
 
         // GET: Authors/Edit/5
@@ -92,8 +88,6 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     _context.Update(author);
@@ -112,8 +106,6 @@ namespace library_system.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(author);
-        }
 
         // GET: Authors/Delete/5
         public async Task<IActionResult> Delete(int? id)
