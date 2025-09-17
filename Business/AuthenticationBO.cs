@@ -17,12 +17,14 @@ namespace library_system.Business
 
         public bool CheckCredentials(Client client)
         {
+            client.Password = Encrypt(client.Password);
+            bool Check = false;
             try
             {
-                client.Password = Encrypt(client.Password);
-                _context.Clients.Add(client);
-                _context.SaveChanges();
-                return true;
+                Check = _context.Clients.Where(e => e.Username == client.Username && e.Password == client.Password).SingleOrDefault() != null;
+
+
+                return Check;
             }
             catch
             {
