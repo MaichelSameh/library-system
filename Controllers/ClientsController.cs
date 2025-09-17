@@ -19,6 +19,41 @@ namespace library_system.Controllers
             _context = context;
         }
 
+        public IActionResult Indexlog()
+        {
+
+
+            return View();
+        }
+
+        public IActionResult SignUp()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Indexlog(Client client)
+        {
+            var clientBO = new ClientBO(_context);
+            var created = clientBO.CreateClient(client);
+
+            return RedirectToAction("Index");
+        }
+
+
+
+
+        [HttpPost]
+        public IActionResult SignUp( Client client)
+        {
+            var clientBO = new ClientBO(_context);
+            var created = clientBO.CreateClient(client);
+
+            return RedirectToAction("Index");
+        }
+
+
         // GET: Clients
         public async Task<IActionResult> Index()
         {

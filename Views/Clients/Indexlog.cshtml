@@ -1,0 +1,218 @@
+﻿@model Client
+@{
+    ViewBag.Title = "Login";
+    Layout = null; // Use no layout for login page
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Employee Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Login.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-container {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            width: 100%;
+            max-width: 450px;
+            margin: 20px;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-title {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+
+            .form-control:focus {
+                border-color: var(--secondary-blue);
+                box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+                outline: none;
+            }
+
+        .btn-login {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 0.875rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 1rem;
+        }
+
+            .btn-login:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-lg);
+                opacity: 0.95;
+            }
+
+            .btn-login:active {
+                transform: translateY(0);
+            }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-light);
+        }
+
+        @@keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@media (max-width: 480px) {
+            .login-container {
+                margin: 10px;
+                padding: 2rem;
+            }
+
+            .login-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1 class="login-title">
+                <i class="fas fa-users me-2"></i>Login
+            </h1>
+            <p class="login-subtitle">Employee Management System</p>
+        </div>
+
+        @using (Html.BeginForm("Indexlog", "Clients", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(A => A.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(A => A.Username, new { @class = "form-label" })
+                @Html.TextBoxFor(A => A.Username, new { @class = "form-control", placeholder = "Enter your username", required = "required" })
+                @Html.ValidationMessageFor(A => A.Username, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(A => A.Password, new { @class = "form-label" })
+                @Html.PasswordFor(A => A.Password, new { @class = "form-control", placeholder = "Enter your password", required = "required" })
+                @Html.ValidationMessageFor(A => A.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+            </button>
+
+
+            <a href="@Url.Action("SignUp", "Clients")"> Don't have account </a>
+
+
+        }
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var usernameField = document.querySelector('input[name="Username"]');
+            if (usernameField) {
+                usernameField.focus();
+            }
+
+            var form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    var username = document.querySelector('input[name="Username"]').value;
+                    var password = document.querySelector('input[name="Password"]').value;
+
+                    if (!username.trim() || !password.trim()) {
+                        e.preventDefault();
+                        alert('Please fill in both username and password fields.');
+                        return false;
+                    }
+                });
+            }
+
+            // Bootstrap form validation
+            (function() {
+                'use strict';
+                window.addEventListener('load', function() {
+                    var forms = document.getElementsByClassName('needs-validation');
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        });
+    </script>
+</body>
+</html>

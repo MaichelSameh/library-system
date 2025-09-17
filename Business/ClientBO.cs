@@ -72,6 +72,8 @@ namespace library_system.Business
                 Clients.Address = updated.Address;
                 Clients.BadgeCode = updated.BadgeCode;
 
+                _context.SaveChanges();
+                
                 return true;
 
             }
