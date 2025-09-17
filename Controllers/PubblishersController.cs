@@ -57,8 +57,8 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Company")] Pubblisher pubblisher)
         {
-            _context.Add(pubblisher);
-            await _context.SaveChangesAsync();
+           var Pubblishers = new PubblisherBO(_context);
+            Pubblishers.CreatePubblisher(pubblisher);
             return RedirectToAction(nameof(Index));
             
         }
