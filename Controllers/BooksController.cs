@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using library_system.Models;
+using library_system.Business;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace library_system.Controllers
 {
@@ -62,14 +64,16 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,Description,TipologyId,ISBN,AuthorId,PubblisherId,PubblicDate")] Book book)
         {
-            _context.Add(book);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            var bookBO = new BookBO(_context);
+            var check = bookBO.CreateNewBook(book);
+            if (check)
+                return RedirectToAction(nameof(Index));
+
+            else
+                return NotFound();
 
 
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
-            ViewData["TipologyId"] = new SelectList(_context.Tipologys, "Id", "Description", book.TipologyId);
         }
 
         // GET: Books/Edit/5
@@ -98,33 +102,14 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,TipologyId,ISBN,AuthorId,PubblisherId,PubblicDate")] Book book)
         {
-            if (id != book.Id)
-            {
+            var bookBO = new BookBO(_context);
+            var check = bookBO.GetEdited(id, book);
+
+            if (check)
+                return RedirectToAction(nameof(Index));
+
+            else
                 return NotFound();
-            }
-
-            try
-            {
-                _context.Update(book);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookExists(book.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
-
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            ViewData["PubblisherId"] = new SelectList(_context.Pubblishers, "Id", "Company", book.PubblisherId);
-            ViewData["TipologyId"] = new SelectList(_context.Tipologys, "Id", "Description", book.TipologyId);
-
 
         }
 
@@ -154,15 +139,15 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            if (book != null)
-            {
-                _context.Books.Remove(book);
-            }
+            var BookBO = new BookBO(_context);
+            var check = BookBO.GetDeleted(id);
+            if (check)
+                return RedirectToAction(nameof(Index));
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            else 
+                return NotFound();
         }
+
 
         private bool BookExists(int id)
         {

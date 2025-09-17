@@ -55,10 +55,10 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description")] Tipology tipology)
         {
-            _context.Add(tipology);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
 
+                _context.Add(tipology);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
         }
 
         // GET: Tipologies/Edit/5
