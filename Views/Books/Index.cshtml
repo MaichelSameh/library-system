@@ -3,6 +3,13 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+<style>
+    td.right-align {
+        text-align: right;
+    }
+</style>
+
 <h1 class="page-title">Library Management</h1>
 <p class="page-subtitle">Manage your organization Library</p>
 
@@ -61,9 +68,9 @@
                 @Html.DisplayFor(modelItem => item.PubblicDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Delete</a>
             </td>
         </tr>
 }
