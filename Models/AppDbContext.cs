@@ -15,6 +15,7 @@ namespace library_system.Models
         public DbSet<Pubblisher> Pubblishers { get; set; }
         public DbSet<Tipology> Tipologys { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Config> Configs { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Borrow> Borrows { get; set; }
 
