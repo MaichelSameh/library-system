@@ -1,0 +1,306 @@
+﻿@model Client
+
+@{
+    ViewBag.Title = "Sign Up";
+    Layout = null; // Use no layout for sign-up page
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="wIdth=device-wIdth, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Employee Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Login.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px 0;
+        }
+
+        .signup-container {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-lg);
+            wIdth: 100%;
+            max-wIdth: 500px;
+            margin: 20px;
+            animation: slIdeUp 0.6s ease-out;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .signup-title {
+            color: var(--primary-blue);
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            border: 2px solId var(--border-color);
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+
+            .form-control:focus {
+                border-color: var(--secondary-blue);
+                box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+                outline: none;
+            }
+
+        .btn-signup {
+            wIdth: 100%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 0.875rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 1rem;
+        }
+
+            .btn-signup:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-lg);
+                opacity: 0.95;
+            }
+
+            .btn-signup:active {
+                transform: translateY(0);
+            }
+
+        .signup-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-light);
+        }
+
+        .login-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+            .login-link:hover {
+                color: var(--dark-blue);
+                text-decoration: underline;
+            }
+
+        @@keyframes slIdeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@media (max-wIdth: 480px) {
+            .signup-container {
+                margin: 10px;
+                padding: 2rem;
+            }
+
+            .signup-title {
+                font-size: 2rem;
+            }
+        }
+
+        .row {
+            margin: 0 -0.5rem;
+        }
+
+        .col-md-6 {
+            padding: 0 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-header">
+            <h1 class="signup-title">
+                <i class="fas fa-user-plus me-2"></i>Sign Up
+            </h1>
+            <p class="signup-subtitle">Create your account</p>
+        </div>
+
+        @using (Html.BeginForm("SignUp", "Clients", FormMethod.Post, new { @class = "needs-valIdation", novalIdate = "novalIdate" }))
+        {
+            @Html.AntiForgeryToken()
+            @* @Html.HIddenFor(A => A.Id) *@
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(A => A.FirstName, new { @class = "form-label" })
+                        @Html.TextBoxFor(A => A.FirstName, new { @class = "form-control", placeholder = "Enter your first name", required = "required" })
+                         @* @Html.ValIdationMessageFor(A => A.FirstName, "", new { @class = "text-danger" })  *@
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(A => A.SecondName, new { @class = "form-label" })
+                        @Html.TextBoxFor(A => A.SecondName, new { @class = "form-control", placeholder = "Enter your last name", required = "required" })
+                         @* @Html.ValIdationMessageFor(A => A.SecondName, "", new { @class = "text-danger" })  *@
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(A => A.Address, new { @class = "form-label" })
+                @Html.TextBoxFor(A => A.Address, new { @class = "form-control", placeholder = "Enter your address", required = "required" })
+                 @* @Html.ValIdationMessageFor(A => A.Address, "", new { @class = "text-danger" })  *@
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(A => A.FiscalCode, new { @class = "form-label" })
+                @Html.TextBoxFor(A => A.FiscalCode, new { @class = "form-control", placeholder = "Enter your FiscalCode", required = "required" })
+                @* @Html.ValIdationMessageFor(A => A.FiscalCode, "", new { @class = "text-danger" }) *@
+            </div>
+
+
+
+            <div class= "form-group">
+            @Html.LabelFor(A => A.BadgeCode, new { @class = "form-label" })
+                @Html.TextBoxFor(A => A.BadgeCode, new { @class = "form-control", placeholder = "Enter your BadgeCode", required = "required" })
+            @* @Html.ValIdationMessageFor(A => A.BadgeCode, "", new { @class = "text-danger" }) *@
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(A => A.Username, new { @class = "form-label" })
+                @Html.TextBoxFor(A => A.Username, new { @class = "form-control", placeholder = "Choose a username", required = "required" })
+               @*  @Html.ValIdationMessageFor(A => A.Username, "", new { @class = "text-danger" }) *@
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(A => A.Password, new { @class = "form-label" })
+                @Html.PasswordFor(A => A.Password, new { @class = "form-control", placeholder = "Create a password", required = "required" })
+                @* @Html.ValIdationMessageFor(A => A.Password, "", new { @class = "text-danger" }) *@
+            </div>
+
+            <button type="submit" class="btn-signup">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+            </button>
+        }
+
+        <div class="signup-footer">
+            <p class="mb-0">
+                Already have an account?
+                <a href="@Url.Action("Indexlog", "Clients")" class="login-link">
+                    <i class="fas fa-sign-in-alt me-1"></i>Sign In
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('signup-form');
+
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const client = {
+                    FirstName: document.querySelector('input[name="FirstName"]').value,
+                    SecondName: document.querySelector('input[name="SecondName"]').value,
+                    Address: document.querySelector('input[name="Address"]').value,
+                    FiscalCode: document.querySelector('input[name="FiscalCode"]').value,
+                    BadgeCode: document.querySelector('input[name="BadgeCode"]').value,
+                    Username: document.querySelector('input[name="Username"]').value,
+                    Password: document.querySelector('input[name="Password"]').value
+                };
+
+                if (!client.FirstName || !client.SecondName || !client.Address || !client.Username || !client.Password) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+
+                try {
+                    const signUpRes = await fetch('/Clients/SignUp', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(client)
+                    });
+
+                    const signUpData = await signUpRes.json();
+
+                    if (signUpData.success) {
+                        // Step 2: Call /Clients/Login
+                        const loginRes = await fetch('/Clients/Login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                Username: client.Username,
+                                Password: client.Password
+                            })
+                        });
+
+                        const loginData = await loginRes.json();
+
+                        if (loginData.success) {
+                            // Step 3: Redirect to Books
+                            window.location.href = loginData.redirectUrl;
+                        } else {
+                            alert('Account created, but login failed.');
+                        }
+                    } else {
+                        alert(signUpData.message || 'Sign up failed.');
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                    alert('Something went wrong. Try again.');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
