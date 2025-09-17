@@ -22,5 +22,9 @@ namespace library_system.Models
         public DateTime BorrowDate { get; set; }
         public int BorrowDays { get; set; }
 
+        public DateTime? ReturnedAt { get; set; }
+        public DateTime ReturnDate => BorrowDate.AddDays(BorrowDays);
+
+
     }
 }

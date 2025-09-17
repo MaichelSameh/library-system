@@ -15,6 +15,9 @@ builder.Services.AddScoped<AuthorBO>();
 builder.Services.AddScoped<BookBO>();
 builder.Services.AddScoped<ClientBO>();
 builder.Services.AddScoped<PubblisherBO>();
+builder.Services.AddScoped<BorrowBO>();
+
+
 
 var app = builder.Build();
 
