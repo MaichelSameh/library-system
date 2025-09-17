@@ -57,6 +57,7 @@ namespace library_system.Business
             else
             {
                 Pubblishers.Company = updated.Company;
+                _context.SaveChanges();
                 return true;
             }
         }

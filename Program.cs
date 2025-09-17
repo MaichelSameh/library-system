@@ -1,3 +1,4 @@
+using library_system.Business;
 using library_system.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<AuthorBO>();
 
 var app = builder.Build();
 
