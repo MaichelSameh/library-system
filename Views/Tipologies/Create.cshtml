@@ -3,12 +3,14 @@
 @{
     ViewData["Title"] = "Create";
 }
+@{
+    Layout = "~/Views/Shared/_DataLayout.cshtml";
+}
 
-<h1>Create</h1>
+<h1 class="d-flex justify-content-center vh-1">Create Tipology</h1>
 
-<h4>Tipology</h4>
 <hr />
-<div class="row">
+<div class ="d-flex justify-content-center align-items-center vh-80">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -17,16 +19,17 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group text-center mt-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="btn btn-primary" >Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

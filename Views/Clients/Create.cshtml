@@ -4,11 +4,12 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Client</h4>
+@{
+    Layout = "~/Views/Shared/_DataLayout.cshtml";
+}
+<h1 class="d-flex justify-content-center vh-1">Create Client</h1>
 <hr />
-<div class="row">
+<div class="d-flex justify-content-center align-items-center vh-80">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -29,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,16 +48,17 @@
                 <input asp-for="BadgeCode" class="form-control" />
                 <span asp-validation-for="BadgeCode" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group text-center mt-3">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <div class="text-center mt-3">
+            <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
