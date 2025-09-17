@@ -14,6 +14,28 @@ namespace library_system.Business
         {
             _context = context;
         }
+
+        public IQueryable<Client> getAllClients()
+        {
+            return getAllClients(false);
+        }
+
+        public IQueryable<Client> getAllClients(bool withHidden)
+        {
+            var clientsQuery = _context.Clients.AsQueryable();
+
+            if (!withHidden) {
+                //clientsQuery = clientsQuery.Where(client => client.isHidden != true);
+            }
+
+            return clientsQuery.OrderBy(client => client.FirstName).OrderBy(client => client.SecondName);
+        } 
+
+        public IQueryable<Client> getClientByID(int Id)
+        {
+            return _context.Clients.Where(client => client.Id == Id);
+        }
+
         public bool CreateClient(Client client)
         {
             var t = Encrypt(client.Password);
@@ -54,6 +76,7 @@ namespace library_system.Business
             }
 
         }
+        
         public bool updateClient(Client updated)
         {
             var Clients = _context.Clients.Find(updated.Id);
@@ -79,7 +102,6 @@ namespace library_system.Business
             }
 
         }
-
 
         public static class Global
         {
