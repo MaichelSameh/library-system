@@ -57,10 +57,10 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Company")] Pubblisher pubblisher)
         {
-            var Pubblishers = new PubblisherBO(_context);
-            Pubblishers.CreatePubblisher(pubblisher);
+            _context.Add(pubblisher);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-
+            
         }
 
         // GET: Pubblishers/Edit/5
