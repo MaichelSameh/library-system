@@ -35,10 +35,13 @@ namespace library_system.Controllers
         [HttpPost]
         public IActionResult Indexlog(Client client)
         {
-            var clientBO = new ClientBO(_context);
-            var created = clientBO.CreateClient(client);
+            var Authentication = new AuthenticationBO(_context);
+            var created = Authentication.CheckCredentials(client);
+            if (created)
+                return RedirectToAction("Index");
 
-            return RedirectToAction("Index");
+            else
+                return RedirectToAction("Indexlog");
         }
 
 
