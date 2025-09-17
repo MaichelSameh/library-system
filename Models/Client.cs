@@ -26,6 +26,8 @@ namespace library_system.Models
         [MaxLength(6)] // nvarchar(100)
         public string BadgeCode { get; set; }
 
+        //public bool? isHidden { get; set; }
+
         public ICollection<Borrow> borrows { get; set; }
     }
 }

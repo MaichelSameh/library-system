@@ -12,11 +12,13 @@ namespace library_system.Controllers
 {
     public class ClientsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly AuthenticationBO _authBO;
+        private readonly ClientBO _clientBO;
 
-        public ClientsController(AppDbContext context)
+        public ClientsController(AuthenticationBO authBO, ClientBO clientBO)
         {
-            _context = context;
+            _authBO = authBO;
+            _clientBO = clientBO;
         }
 
         public IActionResult Indexlog()
@@ -35,8 +37,7 @@ namespace library_system.Controllers
         [HttpPost]
         public IActionResult Indexlog(Client client)
         {
-            var Authentication = new AuthenticationBO(_context);
-            var created = Authentication.CheckCredentials(client);
+            var created = _authBO.CheckCredentials(client);
             if (created)
                 return RedirectToAction("Index");
 
@@ -50,8 +51,7 @@ namespace library_system.Controllers
         [HttpPost]
         public IActionResult SignUp( Client client)
         {
-            var clientBO = new ClientBO(_context);
-            var created = clientBO.CreateClient(client);
+            var created = _clientBO.CreateClient(client);
 
             return RedirectToAction("Index");
         }
@@ -60,7 +60,7 @@ namespace library_system.Controllers
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Clients.ToListAsync());
+            return View(await _clientBO.getAllClients().ToListAsync());
         }
 
         // GET: Clients/Details/5
@@ -71,8 +71,8 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = await _clientBO.getClientByID((int) id)
+                .FirstOrDefaultAsync();
             if (client == null)
             {
                 return NotFound();
@@ -92,8 +92,7 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SecondName,Username,Password,Address,FiscalCode,BadgeCode")] Client client)
         {
-            var clientsBO = new ClientBO(_context);
-            clientsBO.CreateClient(client);
+            _clientBO.CreateClient(client);
             return RedirectToAction(nameof(Index));
         }
 
@@ -105,7 +104,7 @@ namespace library_system.Controllers
                 return NotFound();
             }
             
-            var client = await _context.Clients.FindAsync(id);
+            var client = await _clientBO.getClientByID((int) id).FirstOrDefaultAsync();
             if (client == null)
             {
                 return NotFound();
@@ -121,8 +120,7 @@ namespace library_system.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,SecondName,Username,Password,Address,FiscalCode,BadgeCode")] Client client)
         {
             bool check = false;
-            var clientsBO = new ClientBO(_context);
-            check = clientsBO.updateClient(client);
+            check = _clientBO.updateClient(client);
 
             if (check)
             {
@@ -143,8 +141,8 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var client = await _clientBO.getClientByID((int) id)
+                .FirstOrDefaultAsync();
             if (client == null)
             {
                 return NotFound();
@@ -159,8 +157,7 @@ namespace library_system.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             bool check = false;
-            var clientsBO = new ClientBO(_context);
-            check = clientsBO.DeleteClient(id);
+            check = _clientBO.DeleteClient(id);
 
             if (check)
             {
@@ -174,8 +171,7 @@ namespace library_system.Controllers
         }
         public async Task<IActionResult> Login(Client client)
         {
-            var AuthBO = new AuthenticationBO(_context);
-            bool check  = AuthBO.CheckCredentials(client);
+            bool check  = _authBO.CheckCredentials(client);
 
             if (check)
                 return RedirectToAction("Index", "Books");
@@ -187,7 +183,7 @@ namespace library_system.Controllers
 
         private bool ClientExists(int id)
         {
-            return _context.Clients.Any(e => e.Id == id);
+            return _clientBO.getClientByID(id).FirstOrDefault() != null;
         }
     }
 }
