@@ -31,8 +31,20 @@ namespace library_system.Models
         public int PubblisherId { get; set; }
         public Pubblisher Pubblisher { get; set; }
         public DateTime PubblicDate { get; set; }
+        public bool IsBorrowed { get; set; } = false; 
+
+        // Log dates
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; } // To handle soft delete later
+
+        // log user
+        public int? CreatedBy { get; set; }
+        
+        public Client? Creator { get; set; } // The creator reference
 
         public ICollection<Borrow> borrows { get; set; }
+
 
     }
 }

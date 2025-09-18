@@ -8,6 +8,24 @@
     td.right-align {
         text-align: right;
     }
+
+
+
+    .badge {
+        padding: 0.35em 0.6em;
+        font-size: 0.85em;
+        border-radius: 0.25rem;
+    }
+
+    .bg-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .bg-success {
+        background-color: #28a745;
+        color: white;
+    }
 </style>
 
 <h1 class="page-title">Library Management</h1>
@@ -40,11 +58,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.PubblicDate)
             </th>
+            <th>
+               Status
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
+        
+            var isBorrowed = item.borrows != null && item.borrows.Where(b => b.ReturnedAt == null).Any();
+
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -67,11 +92,25 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PubblicDate)
             </td>
-            <td class="right-align">
-                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> 
-                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Delete</a>
-            </td>
+
+               
+
+                <td>
+                    @if (isBorrowed)
+                    {
+                        <span class="badge bg-danger">Borrowed</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Available</span>
+                    }
+                </td>
+        
+                <td class="right-align">
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Delete</a>
+                </td>
         </tr>
 }
     </tbody>

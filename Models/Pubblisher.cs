@@ -11,6 +11,17 @@ namespace library_system.Models
         [Required] // NOT NULL
         [MaxLength(100)] // nvarchar(100)
         public string Company { get; set; }
+        
+        // Log dates
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; } // To handle soft delete later
+
+        // log user
+        public int? CreatedBy { get; set; }
+        
+        public Client? Creator { get; set; } // The creator reference
+
         public ICollection<Book> Books { get; set; }
     }
 }
