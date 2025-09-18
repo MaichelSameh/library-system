@@ -26,8 +26,16 @@ namespace library_system.Models
         [MaxLength(6)] // nvarchar(100)
         public string BadgeCode { get; set; }
 
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+
         //public bool? isHidden { get; set; }
 
         public ICollection<Borrow> borrows { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
     }
 }

@@ -161,6 +161,13 @@
                 @Html.ValidationMessageFor(A => A.Password, "", new { @class = "text-danger" })
             </div>
 
+            <div class="checkbox">
+                <label>
+                    <input asp-for="RememberMe" />
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+
             <button type="submit" class="btn-login">
                 <i class="fas fa-sign-in-alt me-2"></i>Sign In
             </button>

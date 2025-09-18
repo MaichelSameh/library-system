@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using library_system.Models;
+﻿using library_system.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace library_system.Models
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<IdentityUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
