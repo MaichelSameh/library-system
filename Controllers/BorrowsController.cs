@@ -21,7 +21,7 @@ namespace library_system.Controllers
         // GET: Borrows
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Borrows.Include(b => b.book).Include(b => b.Client).Where(b=> b.ReturnedAt == null);
+            var appDbContext = _context.Borrows.Include(b => b.book).Include(b => b.Client).Where(b => b.ReturnedAt == null);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -48,7 +48,7 @@ namespace library_system.Controllers
         // GET: Borrows/Create
         public IActionResult Create()
         {
-         
+
 
             var availableBooks = _context.Books
             .Where(b => !b.borrows.Any(br => br.ReturnedAt == null))
@@ -59,41 +59,36 @@ namespace library_system.Controllers
             return View();
         }
 
-        // POST: Borrows/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ClientId,BookId,BorrowDate,BorrowDays")] Borrow borrow)
         {
-            // Guard: prevent double-borrowing
             bool isOut = await _context.Borrows.AnyAsync(br =>
                 br.BookId == borrow.BookId && br.ReturnedAt == null);
-            bool check = false;
-            check = _context.Books.Where(b => b.Id == borrow.BookId).Any();
 
-            if (isOut && check == true)
+            if (isOut)
             {
                 ModelState.AddModelError("BookId", "This book is currently borrowed and cannot be borrowed again.");
                 return RedirectToAction(nameof(Create));
             }
 
-
-            else { 
+            // Save borrow
             _context.Add(borrow);
             await _context.SaveChangesAsync();
+
+            // ✅ Mark the book as borrowed
+            var book = await _context.Books.FindAsync(borrow.BookId);
+            if (book != null)
+            {
+                book.IsBorrowed = true;
+                _context.Update(book);
+                await _context.SaveChangesAsync();
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
 
-            // Re-populate select lists (respecting availability again)
-            var availableBooks = _context.Books
-                .Where(b => !b.borrows.Any(br => br.ReturnedAt == null))
-                .ToList();
-
-            ViewData["BookId"] = new SelectList(availableBooks, "Id", "Title", borrow.BookId);
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstName", borrow.ClientId);
-        }
         // GET: Borrows/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -198,9 +193,23 @@ namespace library_system.Controllers
             if (borrow.ReturnedAt == null)
             {
                 borrow.ReturnedAt = DateTime.Now;
+
+                // ✅ Mark book as not borrowed
+                var book = await _context.Books.FindAsync(borrow.BookId);
+                if (book != null)
+                {
+                    book.IsBorrowed = true;
+                    _context.Update(book);
+                }
+
+                _context.Update(borrow);
                 await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
+
+

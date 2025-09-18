@@ -23,7 +23,8 @@ namespace library_system.Controllers
         // GET: Books
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Books.Include(b => b.Authors).Include(b => b.Pubblisher).Include(b => b.Tipology);
+            var appDbContext = _context.Books.Include(b => b.Authors).Include(b => b.Pubblisher).Include(b => b.Tipology)
+                 .Include(b => b.borrows);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -39,6 +40,7 @@ namespace library_system.Controllers
                 .Include(b => b.Authors)
                 .Include(b => b.Pubblisher)
                 .Include(b => b.Tipology)
+                 .Include(b => b.borrows)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
@@ -125,6 +127,7 @@ namespace library_system.Controllers
                 .Include(b => b.Authors)
                 .Include(b => b.Pubblisher)
                 .Include(b => b.Tipology)
+                 .Include(b => b.borrows)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (book == null)
             {
@@ -148,7 +151,7 @@ namespace library_system.Controllers
                 return NotFound();
         }
 
-
+            
         private bool BookExists(int id)
         {
             return _context.Books.Any(e => e.Id == id);

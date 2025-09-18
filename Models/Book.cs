@@ -31,8 +31,9 @@ namespace library_system.Models
         public int PubblisherId { get; set; }
         public Pubblisher Pubblisher { get; set; }
         public DateTime PubblicDate { get; set; }
-
+        public bool IsBorrowed { get; set; } = false; 
         public ICollection<Borrow> borrows { get; set; }
+
 
     }
 }
