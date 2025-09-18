@@ -22,6 +22,16 @@ namespace library_system.Models
         public DateTime BorrowDate { get; set; }
         public int BorrowDays { get; set; }
 
+        // Log dates
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; } // To handle soft delete later
+
+        // log user
+        public string? CreatedBy { get; set; }
+        
+        public Client? Creator { get; set; } // The creator reference
+
         public DateTime? ReturnedAt { get; set; }
         public DateTime ReturnDate => BorrowDate.AddDays(BorrowDays);
 
