@@ -50,6 +50,43 @@ namespace library_system.Models
                 .WithMany(t => t.borrows)
                 .HasForeignKey(e => e.BookId)
                ;
+            
+            
+            modelBuilder.Entity<Author>()
+                .HasOne(b => b.Creator)
+                .WithMany(t => t.Authors)
+                .HasForeignKey(b => b.CreatedBy)
+                ;
+            
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Creator)
+                .WithMany(t => t.Books)
+                .HasForeignKey(b => b.CreatedBy)
+                ;
+            
+            modelBuilder.Entity<Borrow>()
+                .HasOne(b => b.Creator)
+                .WithMany(t => t.Borrows)
+                .HasForeignKey(b => b.CreatedBy)
+                ;
+            
+            modelBuilder.Entity<Client>()
+                .HasOne(b => b.Creator)
+                .WithMany(t => t.Clients)
+                .HasForeignKey(b => b.CreatedBy)
+                ;
+            
+            modelBuilder.Entity<Pubblisher>()
+                .HasOne(b => b.Creator)
+                .WithMany(t => t.Publishers)
+                .HasForeignKey(b => b.CreatedBy)
+                ;
+            
+            modelBuilder.Entity<Tipology>()
+                .HasOne(b => b.Creator)
+                .WithMany(t => t.Tipologies)
+                .HasForeignKey(b => b.CreatedBy)
+                ;
 
             base.OnModelCreating(modelBuilder);
         }

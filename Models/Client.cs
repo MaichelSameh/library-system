@@ -26,7 +26,27 @@ namespace library_system.Models
         [MaxLength(6)] // nvarchar(100)
         public string BadgeCode { get; set; }
 
-        //public bool? isHidden { get; set; }
+        // Log dates
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; } // To handle soft delete later
+
+        // log user
+        public string? CreatedBy { get; set; }
+        
+        public Client? Creator { get; set; }
+        
+        public List<Author>? Authors { get; set; }
+        
+        public List<Book>? Books { get; set; }
+        
+        public List<Borrow>? Borrows { get; set; }
+        
+        public List<Client>? Clients { get; set; }
+        
+        public List<Pubblisher>? Publishers { get; set; }
+        
+        public List<Tipology>? Tipologies { get; set; }
 
         public ICollection<Borrow> borrows { get; set; }
     }

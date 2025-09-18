@@ -12,6 +12,29 @@ namespace library_system.Business
             _context = context;
         }
 
+
+        public IQueryable<Pubblisher> getAllPubblishers()
+        {
+            return getAllPubblishers(false);
+        }
+
+        public IQueryable<Pubblisher> getAllPubblishers(bool withHidden)
+        {
+            var pubblishersQuery = _context.Pubblishers.AsQueryable();
+
+            if (!withHidden)
+            {
+                //pubblishersQuery = pubblishersQuery.Where(pubblisher => pubblisher.isHidden != true);
+            }
+
+            return pubblishersQuery.OrderBy(pubblisher => pubblisher.Company);
+        }
+
+        public IQueryable<Pubblisher> getPubblisherByID(int Id)
+        {
+            return _context.Pubblishers.Where(pubblisher => pubblisher.Id == Id);
+        }
+
         public bool CreatePubblisher(Pubblisher pubblisher)
         {
             try

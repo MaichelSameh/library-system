@@ -13,17 +13,17 @@ namespace library_system.Controllers
 {
     public class PubblishersController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly PubblisherBO _pubblisherBO;
 
-        public PubblishersController(AppDbContext context)
+        public PubblishersController(PubblisherBO pubblisherBO)
         {
-            _context = context;
+            _pubblisherBO = pubblisherBO;
         }
 
         // GET: Pubblishers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pubblishers.ToListAsync());
+            return View(await _pubblisherBO.getAllPubblishers().ToListAsync());
         }
 
         // GET: Pubblishers/Details/5
@@ -34,7 +34,7 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            var pubblisher = await _context.Pubblishers
+            var pubblisher = await _pubblisherBO.getPubblisherByID((int) id)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pubblisher == null)
             {
@@ -57,8 +57,8 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Company")] Pubblisher pubblisher)
         {
-           var Pubblishers = new PubblisherBO(_context);
-            Pubblishers.CreatePubblisher(pubblisher);
+           //var Pubblishers = new PubblisherBO(_pubblisherBO);
+            _pubblisherBO.CreatePubblisher(pubblisher);
             return RedirectToAction(nameof(Index));
             
         }
@@ -71,7 +71,7 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            var pubblisher = await _context.Pubblishers.FindAsync(id);
+            var pubblisher = await _pubblisherBO.getPubblisherByID((int) id).FirstOrDefaultAsync();
             if (pubblisher == null)
             {
                 return NotFound();
@@ -79,13 +79,15 @@ namespace library_system.Controllers
             return View(pubblisher);
         }
 
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Company")] Pubblisher pubblisher)
+        //public IActionResult Edit(int id, [Bind("Id,Company")] Pubblisher pubblisher)
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Company")] Pubblisher pubblisher)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Company")] Pubblisher pubblisher)
         {
-            var Pubblishers = new PubblisherBO(_context);
-            var check = Pubblishers.updatePubblisher(pubblisher);
+            bool check = false;
+            check = _pubblisherBO.updatePubblisher(pubblisher);
+            //var Pubblishers = new PubblisherBO(_pubblisherBO);
+            //var check = Pubblishers.updatePubblisher(pubblisher);
             if (check)
                 return RedirectToAction(nameof(Index));
             else
@@ -100,7 +102,7 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            var pubblisher = await _context.Pubblishers
+            var pubblisher = await _pubblisherBO.getPubblisherByID((int) id)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pubblisher == null)
             {
@@ -116,8 +118,10 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            var Pubblishers = new PubblisherBO(_context);
-            var check = Pubblishers.DeletePubblisher(id);
+            bool check = false;
+            check = _pubblisherBO.DeletePubblisher(id);
+            //var Pubblishers = new PubblisherBO(_pubblisherBO);
+            //var check = Pubblishers.DeletePubblisher(id);
             if (check)
                 return RedirectToAction(nameof(Index));
             else
@@ -128,8 +132,7 @@ namespace library_system.Controllers
         [HttpGet("search")]
         public  IActionResult Search(string? q)
         {
-            var bo = new PubblisherBO(_context);
-            var list =  bo.SearchAsync(q);
+            var list = _pubblisherBO.SearchAsync(q);
             
             ViewData["q"] = q;
             return View("Index", list.ToList());
