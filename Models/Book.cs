@@ -32,6 +32,16 @@ namespace library_system.Models
         public Pubblisher Pubblisher { get; set; }
         public DateTime PubblicDate { get; set; }
 
+        // Log dates
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? DeletedAt { get; set; } // To handle soft delete later
+
+        // log user
+        public string? CreatedBy { get; set; }
+        
+        public Client? Creator { get; set; } // The creator reference
+
         public ICollection<Borrow> borrows { get; set; }
 
     }

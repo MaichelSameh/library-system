@@ -21,7 +21,7 @@ namespace library_system.Controllers
         // GET: Borrows
         public async Task<IActionResult> Index()
         {
-            var appDbContext = _context.Borrows.Include(b => b.book).Include(b => b.Client);
+            var appDbContext = _context.Borrows.Include(b => b.book).Include(b => b.Client).Where(b=> b.ReturnedAt == null);
             return View(await appDbContext.ToListAsync());
         }
 
@@ -48,6 +48,12 @@ namespace library_system.Controllers
         // GET: Borrows/Create
         public IActionResult Create()
         {
+         
+
+            var availableBooks = _context.Books
+            .Where(b => !b.borrows.Any(br => br.ReturnedAt == null))
+            .ToList();
+
             ViewData["BookId"] = new SelectList(_context.Books, "Id", "Title");
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstName");
             return View();
@@ -60,17 +66,34 @@ namespace library_system.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ClientId,BookId,BorrowDate,BorrowDays")] Borrow borrow)
         {
-            if (ModelState.IsValid)
+            // Guard: prevent double-borrowing
+            bool isOut = await _context.Borrows.AnyAsync(br =>
+                br.BookId == borrow.BookId && br.ReturnedAt == null);
+            bool check = false;
+            check = _context.Books.Where(b => b.Id == borrow.BookId).Any();
+
+            if (isOut && check == true)
             {
-                _context.Add(borrow);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("BookId", "This book is currently borrowed and cannot be borrowed again.");
+                return RedirectToAction(nameof(Create));
             }
-            ViewData["BookId"] = new SelectList(_context.Books, "Id", "Title", borrow.BookId);
-            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstName", borrow.ClientId);
-            return View(borrow);
+
+
+            else { 
+            _context.Add(borrow);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
+
+            // Re-populate select lists (respecting availability again)
+            var availableBooks = _context.Books
+                .Where(b => !b.borrows.Any(br => br.ReturnedAt == null))
+                .ToList();
+
+            ViewData["BookId"] = new SelectList(availableBooks, "Id", "Title", borrow.BookId);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstName", borrow.ClientId);
+        }
         // GET: Borrows/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -101,29 +124,27 @@ namespace library_system.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+
+            try
             {
-                try
-                {
-                    _context.Update(borrow);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BorrowExists(borrow.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                _context.Update(borrow);
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!BorrowExists(borrow.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
             ViewData["BookId"] = new SelectList(_context.Books, "Id", "Title", borrow.BookId);
             ViewData["ClientId"] = new SelectList(_context.Clients, "Id", "FirstName", borrow.ClientId);
-            return View(borrow);
         }
 
         // GET: Borrows/Delete/5
@@ -164,6 +185,22 @@ namespace library_system.Controllers
         private bool BorrowExists(int id)
         {
             return _context.Borrows.Any(e => e.Id == id);
+        }
+
+        // BorrowsController.cs
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Return(int id)
+        {
+            var borrow = await _context.Borrows.FindAsync(id);
+            if (borrow == null) return NotFound();
+
+            if (borrow.ReturnedAt == null)
+            {
+                borrow.ReturnedAt = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }

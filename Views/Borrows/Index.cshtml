@@ -2,11 +2,49 @@
 
 @{
     ViewData["Title"] = "Index";
+    var today = DateTime.Today;
 }
 
 <style>
     td.right-align {
         text-align: right;
+    }
+
+    .row-grey {
+        color: #6c757d;
+        background-color: #f8f9fa;
+    }
+
+    .row-red {
+        color: #842029;
+        background-color: #f8d7da;
+    }
+
+    .actions-disabled a.btn,
+    .actions-disabled button.btn {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+
+    .badge {
+        padding: 0.4em 0.6em;
+        font-size: 0.9em;
+        border-radius: 0.25rem;
+    }
+
+    .bg-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .bg-warning {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .bg-success {
+        background-color: #28a745;
+        color: white;
     }
 </style>
 
@@ -16,45 +54,63 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Client)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.book)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BorrowDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BorrowDays)
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Client)</th>
+            <th>@Html.DisplayNameFor(model => model.book)</th>
+            <th>@Html.DisplayNameFor(model => model.BorrowDate)</th>
+            <th>@Html.DisplayNameFor(model => model.BorrowDays)</th>
+            <th>Due Date</th>
+            <th>Status</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-            <tr>
+        @foreach (var item in Model)
+        {
+            var isActive = item.ReturnedAt == null; // Not returned
+            var due = item.BorrowDate.AddDays(item.BorrowDays);
+            var isOverdue = isActive && due < today;
+            var rowClass = isOverdue ? "row-red" : (isActive ? "row-grey" : "");
+            var actionCell = isActive ? "" : "actions-disabled";
+            <tr class="@rowClass">
+                <td>@item.Client?.FirstName</td>
+                <td>@item.book?.Title</td>
+                <td>@item.BorrowDate.ToShortDateString()</td>
+                <td>@item.BorrowDays</td>
+                <td>@due.ToShortDateString()</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Client.FirstName)
+                    @if (isOverdue)
+                    {
+                        <span class="badge bg-danger">Overdue</span>
+                    }
+                    else if (isActive)
+                    {
+                        <span class="badge bg-warning">Borrowed</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Returned</span>
+                    }
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.book.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BorrowDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BorrowDays)
-                </td>
-                <td>
+                <td class="@actionCell">
                     <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Delete</a>
+
+                    @if (isActive)
+                    {
+                        <form asp-action="Return" method="post" style="display:inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-success">Mark as Returned</button>
+                        </form>
+                    }
                 </td>
-        </tr>
-}
+            </tr>
+        }
+
     </tbody>
 </table>
