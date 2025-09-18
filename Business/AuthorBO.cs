@@ -44,10 +44,14 @@ namespace library_system.Business
 
         public async Task CleanTable()
         {
-            var deleteQuery = (SELECT item From _context.Authors
-                WHERE item.DeletedAt != null AND item.DeletedAt < DateTime.Now.Subtract(TimeSpan.FromDays(30)))
-                .AsQueryable();
-            await _context.Authors.ExecuteDeleteAsync(deleteQuery);
+            IQueryable<Author> deleteQuery = from item in _context.Authors
+                               where item.DeletedAt != null && item.DeletedAt < DateTime.Now.Subtract(TimeSpan.FromDays(30))
+                               select new Author
+                               {
+                                   Id = item.Id,
+                               }
+                ;
+            await deleteQuery.ExecuteDeleteAsync();
         }
 
         public async Task AddAuthor(Author author)

@@ -28,7 +28,7 @@ namespace library_system.Models
         public DateTime? DeletedAt { get; set; } // To handle soft delete later
 
         // log user
-        public string? CreatedBy { get; set; }
+        public int? CreatedBy { get; set; }
         
         public Client? Creator { get; set; } // The creator reference
 
