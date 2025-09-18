@@ -12,8 +12,8 @@ using library_system.Models;
 namespace library_system.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250918093830_Maurizio")]
-    partial class Maurizio
+    [Migration("20250918134037_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -238,7 +238,16 @@ namespace library_system.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeadDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
@@ -251,7 +260,12 @@ namespace library_system.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Authors");
                 });
@@ -267,6 +281,15 @@ namespace library_system.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -275,6 +298,9 @@ namespace library_system.Migrations
                     b.Property<string>("ISBN")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsBorrowed")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("PubblicDate")
                         .HasColumnType("datetime2");
@@ -290,9 +316,14 @@ namespace library_system.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("CreatedBy");
 
                     b.HasIndex("PubblisherId");
 
@@ -321,7 +352,19 @@ namespace library_system.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("ReturnedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -329,6 +372,8 @@ namespace library_system.Migrations
                     b.HasIndex("BookId");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Borrows");
                 });
@@ -354,6 +399,15 @@ namespace library_system.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -375,11 +429,16 @@ namespace library_system.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Clients");
                 });
@@ -425,7 +484,21 @@ namespace library_system.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Pubblishers");
                 });
@@ -438,12 +511,26 @@ namespace library_system.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
 
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedBy");
 
                     b.ToTable("Tipologys");
                 });
@@ -499,6 +586,15 @@ namespace library_system.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("library_system.Models.Author", b =>
+                {
+                    b.HasOne("library_system.Models.Client", "Creator")
+                        .WithMany("Authors")
+                        .HasForeignKey("CreatedBy");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("library_system.Models.Book", b =>
                 {
                     b.HasOne("library_system.Models.Author", "Authors")
@@ -506,6 +602,10 @@ namespace library_system.Migrations
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("library_system.Models.Client", "Creator")
+                        .WithMany("Books")
+                        .HasForeignKey("CreatedBy");
 
                     b.HasOne("library_system.Models.Pubblisher", "Pubblisher")
                         .WithMany("Books")
@@ -520,6 +620,8 @@ namespace library_system.Migrations
                         .IsRequired();
 
                     b.Navigation("Authors");
+
+                    b.Navigation("Creator");
 
                     b.Navigation("Pubblisher");
 
@@ -540,9 +642,42 @@ namespace library_system.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("library_system.Models.Client", "Creator")
+                        .WithMany("Borrows")
+                        .HasForeignKey("CreatedBy");
+
                     b.Navigation("Client");
 
+                    b.Navigation("Creator");
+
                     b.Navigation("book");
+                });
+
+            modelBuilder.Entity("library_system.Models.Client", b =>
+                {
+                    b.HasOne("library_system.Models.Client", "Creator")
+                        .WithMany("Clients")
+                        .HasForeignKey("CreatedBy");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("library_system.Models.Pubblisher", b =>
+                {
+                    b.HasOne("library_system.Models.Client", "Creator")
+                        .WithMany("Publishers")
+                        .HasForeignKey("CreatedBy");
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("library_system.Models.Tipology", b =>
+                {
+                    b.HasOne("library_system.Models.Client", "Creator")
+                        .WithMany("Tipologies")
+                        .HasForeignKey("CreatedBy");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("library_system.Models.Author", b =>
@@ -557,6 +692,18 @@ namespace library_system.Migrations
 
             modelBuilder.Entity("library_system.Models.Client", b =>
                 {
+                    b.Navigation("Authors");
+
+                    b.Navigation("Books");
+
+                    b.Navigation("Borrows");
+
+                    b.Navigation("Clients");
+
+                    b.Navigation("Publishers");
+
+                    b.Navigation("Tipologies");
+
                     b.Navigation("borrows");
                 });
 
